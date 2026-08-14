@@ -1,62 +1,81 @@
+import os
 import sqlite3
-from flask import Flask, jsonify, request
-from flask_cors import CORS
+from flask import Flask, jsonify, request, send_from_directory
 
-app = Flask(__name__)
-CORS(app)
+app = Flask(__name__, static_folder=".", template_folder=".")
 
-# 1. Aiki don haɗawa da Database da ƙirƙirar Table idan babu shi
+
+# Hada Database na SQLite
 def init_db():
-    conn = sqlite3.connect('tasks.db')
+    conn = sqlite3.connect("tasks.db")
     cursor = conn.cursor()
-    cursor.execute('''
+    cursor.execute(
+        """
         CREATE TABLE IF NOT EXISTS tasks (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             title TEXT NOT NULL,
-            description TEXT
+            completed INTEGER DEFAULT 0
         )
-    ''')
+    """
+    )
     conn.commit()
     conn.close()
 
-# Kiranta lokacin da server ta tashi
+
+# Kira database daza zaran app din ya tashi
 init_db()
 
-# 2. Karɓo duk ayyuka daga SQLite Database (GET)
-@app.route('/api/tasks', methods=['GET'])
+
+# 1. ROUTE NA SHAFIN FARKO (Wanda zai bude index.html)
+@app.route("/")
+def home():
+    return send_from_directory(".", "index.html")
+
+
+# 2. API: Samo dukkan Tasks
+@app.route("/tasks", methods=["GET"])
 def get_tasks():
-    conn = sqlite3.connect('tasks.db')
+    conn = sqlite3.connect("tasks.db")
     cursor = conn.cursor()
-    cursor.execute('SELECT id, title, description FROM tasks')
+    cursor.execute("SELECT id, title, completed FROM tasks")
     rows = cursor.fetchall()
     conn.close()
 
-    tasks = []
-    for row in rows:
-        tasks.append({
-            "id": row[0],
-            "title": row[1],
-            "description": row[2]
-        })
+    tasks = [
+        {"id": row[0], "title": row[1], "completed": bool(row[2])}
+        for row in rows
+    ]
     return jsonify(tasks)
 
-# 3. Adana sabon aiki a SQLite Database (POST)
-@app.route('/api/tasks', methods=['POST'])
+
+# 3. API: Kara Sabon Task
+@app.route("/tasks", methods=["POST"])
 def add_task():
     data = request.get_json()
-    title = data.get("title")
-    description = data.get("description")
-
-    if not title:
+    if not data or "title" not in data:
         return jsonify({"error": "Title is required"}), 400
 
-    conn = sqlite3.connect('tasks.db')
+    title = data["title"]
+    conn = sqlite3.connect("tasks.db")
     cursor = conn.cursor()
-    cursor.execute('INSERT INTO tasks (title, description) VALUES (?, ?)', (title, description))
+    cursor.execute("INSERT INTO tasks (title) VALUES (?)", (title,))
     conn.commit()
+    task_id = cursor.lastrowid
     conn.close()
 
-    return jsonify({"message": "Task saved permanently to SQLite!"}), 201
+    return jsonify({"id": task_id, "title": title, "completed": False}), 201
 
-if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=5000, debug=True)
+
+# 4. API: Goge Task
+@app.route("/tasks/<int:task_id>", methods=["DELETE"])
+def delete_task(task_id):
+    conn = sqlite3.connect("tasks.db")
+    cursor = conn.cursor()
+    cursor.execute("DELETE FROM tasks WHERE id = ?", (task_id,))
+    conn.commit()
+    conn.close()
+    return jsonify({"message": "Task deleted successfully"})
+
+
+if __name__ == "__main__":
+    app.run(debug=True)
