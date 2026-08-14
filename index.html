@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Abdul Halliru — Software Engineer &amp; Blockchain Developer</title>
+<meta name="description" content="Portfolio of Abdul Halliru — Software Engineer in training, Python developer, and future Smart Contract Developer from Bauchi, Nigeria.">
+
+<!-- Tailwind CDN -->
+<script src="https://cdn.tailwindcss.com"></script>
+<!-- FontAwesome CDN -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<!-- Google Fonts: Space Grotesk (display), Inter (body), JetBrains Mono (code/utility) -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+
+<script>
+  tailwind.config = {
+    theme: {
+      extend: {
+        colors: {
+          navy: {
+            950: '#070a12',
+            900: '#0a0f1a',
+            800: '#0f1524',
+            700: '#161e33',
+            600: '#212c48',
+          },
+          accent: {
+            DEFAULT: '#39ffb0',
+            cyan: '#22e0ff',
+            dim: '#1c8f6e',
+          }
+        },
+        fontFamily: {
+          display: ['"Space Grotesk"', 'sans-serif'],
+          body: ['Inter', 'sans-serif'],
+          mono: ['"JetBrains Mono"', 'monospace'],
+        },
+        boxShadow: {
+          glow: '0 0 25px rgba(57,255,176,0.25)',
+          glowCyan: '0 0 25px rgba(34,224,255,0.2)',
+        }
+      }
+    }
+  }
+</script>
+
+<style>
+  html { scrollbar-color: #1c8f6e #0a0f1a; }
+  body { background-color: #070a12; }
+
+  /* Signature element: hashed block-chain divider */
+  .chain-divider {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  .chain-divider .block {
+    width: 10px; height: 10px;
+    background: linear-gradient(135deg, #39ffb0, #22e0ff);
+    transform: rotate(45deg);
+    flex-shrink: 0;
+    box-shadow: 0 0 10px rgba(57,255,176,0.5);
+  }
+  .chain-divider .link {
+    height: 1px;
+    flex: 1;
+    background: linear-gradient(90deg, rgba(57,255,176,0.5), rgba(34,224,255,0.1));
+  }
+
+  .terminal-caret {
+    display: inline-block;
+    width: 0.55ch;
+    background: #39ffb0;
+    animation: blink 1s steps(1) infinite;
+  }
+  @keyframes blink { 50% { opacity: 0; } }
+
+  .card-glow:hover {
+    box-shadow: 0 0 0 1px rgba(57,255,176,0.4), 0 20px 40px -20px rgba(57,255,176,0.25);
+  }
+
+  .reveal {
+    opacity: 0;
+    transform: translateY(24px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+  }
+  .reveal.in-view {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  ::selection { background: #39ffb0; color: #070a12; }
+
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { animation-duration: 0.001ms !important; animation-iteration-count: 1 !important; transition-duration: 0.001ms !important; }
+  }
+
+  .noise-grid {
+    background-image:
+      linear-gradient(rgba(57,255,176,0.05) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(57,255,176,0.05) 1px, transparent 1px);
+    background-size: 48px 48px;
+  }
+
+  .nav-link { position: relative; }
+  .nav-link::after {
+    content: '';
+    position: absolute; left: 0; bottom: -4px;
+    width: 0%; height: 1px;
+    background: #39ffb0;
+    transition: width 0.25s ease;
+  }
+  .nav-link:hover::after { width: 100%; }
+
+  input:invalid, textarea:invalid { box-shadow: none; }
+</style>
+</head>
+
+<body class="bg-navy-950 text-white font-body antialiased">
+
+<!-- ===================== NAVBAR ===================== -->
+<header id="navbar" class="fixed top-0 inset-x-0 z-50 transition-all duration-300">
+  <nav class="max-w-6xl mx-auto px-6 lg:px-8">
+    <div class="flex items-center justify-between h-16 md:h-20 border-b border-white/5">
+      <a href="#home" class="font-display font-semibold text-lg tracking-tight flex items-center gap-2">
+        <span class="text-accent">&lt;</span>Abdul<span class="text-accent">/&gt;</span>
+      </a>
+
+      <div class="hidden md:flex items-center gap-10 font-mono text-sm text-gray-300">
+        <a href="#home" class="nav-link hover:text-accent transition-colors">home</a>
+        <a href="#about" class="nav-link hover:text-accent transition-colors">about</a>
+        <a href="#work" class="nav-link hover:text-accent transition-colors">work</a>
+        <a href="#contact" class="nav-link hover:text-accent transition-colors">contact</a>
+      </div>
+
+      <a href="#contact" class="hidden md:inline-flex items-center gap-2 border border-accent/40 text-accent text-sm font-mono px-4 py-2 rounded-full hover:bg-accent hover:text-navy-950 hover:shadow-glow transition-all">
+        Let's talk <i class="fa-solid fa-arrow-right text-xs"></i>
+      </a>
+
+      <button id="menuBtn" class="md:hidden text-white text-xl" aria-label="Toggle menu" aria-expanded="false">
+        <i class="fa-solid fa-bars"></i>
+      </button>
+    </div>
+  </nav>
+
+  <!-- Mobile menu -->
+  <div id="mobileMenu" class="md:hidden hidden bg-navy-900/95 backdrop-blur border-b border-white/5">
+    <div class="flex flex-col px-6 py-4 gap-4 font-mono text-sm">
+      <a href="#home" class="mobile-link py-2 text-gray-300 hover:text-accent">home</a>
+      <a href="#about" class="mobile-link py-2 text-gray-300 hover:text-accent">about</a>
+      <a href="#work" class="mobile-link py-2 text-gray-300 hover:text-accent">work</a>
+      <a href="#contact" class="mobile-link py-2 text-gray-300 hover:text-accent">contact</a>
+    </div>
+  </div>
+</header>
+
+<!-- ===================== HERO ===================== -->
+<section id="home" class="relative min-h-screen flex items-center noise-grid overflow-hidden pt-16">
+  <div class="absolute inset-0 pointer-events-none">
+    <div class="absolute -top-40 -left-40 w-96 h-96 bg-accent/10 rounded-full blur-[120px]"></div>
+    <div class="absolute bottom-0 right-0 w-96 h-96 bg-accent-cyan/10 rounded-full blur-[120px]"></div>
+  </div>
+
+  <div class="max-w-6xl mx-auto px-6 lg:px-8 relative z-10 grid md:grid-cols-5 gap-12 items-center w-full py-20">
+
+    <div class="md:col-span-3">
+      <p class="font-mono text-accent text-sm mb-5 flex items-center gap-2">
+        <span class="w-2 h-2 rounded-full bg-accent animate-pulse"></span>
+        open to new projects — bauchi, nigeria
+      </p>
+
+      <h1 class="font-display text-4xl sm:text-5xl lg:text-6xl font-semibold leading-[1.1] mb-6">
+        I build software<br>
+        that runs on <span class="text-transparent bg-clip-text bg-gradient-to-r from-accent to-accent-cyan">logic</span>,<br>
+        not luck.
+      </h1>
+
+      <p class="text-gray-400 text-lg max-w-xl mb-8 leading-relaxed">
+        I'm Abdul — a Software Engineering student and self-taught Python developer building toward
+        smart contracts and on-chain analysis. I write clean, deliberate code and treat every
+        problem like a proof: step by step, no shortcuts.
+      </p>
+
+      <div class="flex flex-wrap gap-4 mb-10">
+        <a href="#work" class="group inline-flex items-center gap-2 bg-accent text-navy-950 font-semibold px-6 py-3 rounded-full hover:shadow-glow transition-all">
+          View my work
+          <i class="fa-solid fa-arrow-right text-sm group-hover:translate-x-1 transition-transform"></i>
+        </a>
+        <a href="#contact" class="inline-flex items-center gap-2 border border-white/15 text-white font-medium px-6 py-3 rounded-full hover:border-accent/50 hover:text-accent transition-all">
+          Get in touch
+        </a>
+      </div>
+
+      <div class="chain-divider max-w-sm">
+        <span class="block"></span>
+        <span class="link"></span>
+        <span class="block"></span>
+        <span class="link"></span>
+        <span class="block"></span>
+      </div>
+    </div>
+
+    <!-- Terminal signature element -->
+    <div class="md:col-span-2">
+      <div class="bg-navy-900/80 border border-white/10 rounded-xl overflow-hidden shadow-2xl backdrop-blur">
+        <div class="flex items-center gap-2 px-4 py-3 border-b border-white/10 bg-navy-800/60">
+          <span class="w-3 h-3 rounded-full bg-red-500/70"></span>
+          <span class="w-3 h-3 rounded-full bg-yellow-500/70"></span>
+          <span class="w-3 h-3 rounded-full bg-green-500/70"></span>
+          <span class="ml-3 font-mono text-xs text-gray-500">profile.py</span>
+        </div>
+        <div class="p-5 font-mono text-sm leading-7">
+          <p><span class="text-accent-cyan">class</span> <span class="text-accent">Developer</span>:</p>
+          <p class="pl-4"><span class="text-accent-cyan">def</span> __init__(self):</p>
+          <p class="pl-8">self.name = <span class="text-yellow-300">"Abdul Halliru"</span></p>
+          <p class="pl-8">self.stack = [<span class="text-yellow-300">"Python"</span>, <span class="text-yellow-300">"Solidity"</span>]</p>
+          <p class="pl-8">self.focus = <span class="text-yellow-300">"Smart Contracts"</span></p>
+          <p class="pl-8">self.based_in = <span class="text-yellow-300">"Bauchi, NG"</span></p>
+          <p class="pl-4">self.status = <span id="typedStatus" class="text-accent"></span><span class="terminal-caret">&nbsp;</span></p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== ABOUT ===================== -->
+<section id="about" class="py-24 md:py-32 border-t border-white/5">
+  <div class="max-w-6xl mx-auto px-6 lg:px-8">
+    <div class="grid md:grid-cols-12 gap-12">
+      <div class="md:col-span-4 reveal">
+        <p class="font-mono text-accent text-sm mb-3">about</p>
+        <h2 class="font-display text-3xl font-semibold mb-4">Grounded in fundamentals.</h2>
+        <p class="text-gray-400 leading-relaxed">
+          Every system I study, I study from first principles — mathematics before syntax,
+          logic before frameworks. That discipline is what's carrying me from classroom
+          fundamentals into blockchain engineering.
+        </p>
+      </div>
+
+      <div class="md:col-span-8 grid sm:grid-cols-2 gap-5 reveal">
+        <div class="bg-navy-900 border border-white/10 rounded-xl p-6 card-glow transition-all">
+          <i class="fa-solid fa-graduation-cap text-accent text-xl mb-4"></i>
+          <h3 class="font-display font-semibold mb-2">Software Engineering</h3>
+          <p class="text-gray-400 text-sm leading-relaxed">Currently studying Software Engineering, building a foundation in structured, mathematical problem-solving.</p>
+        </div>
+        <div class="bg-navy-900 border border-white/10 rounded-xl p-6 card-glow transition-all">
+          <i class="fa-brands fa-python text-accent text-xl mb-4"></i>
+          <h3 class="font-display font-semibold mb-2">Python, self-taught</h3>
+          <p class="text-gray-400 text-sm leading-relaxed">Working steadily through core Python — control flow, data structures, and clean scripting — one lesson at a time, no shortcuts.</p>
+        </div>
+        <div class="bg-navy-900 border border-white/10 rounded-xl p-6 card-glow transition-all">
+          <i class="fa-solid fa-link text-accent text-xl mb-4"></i>
+          <h3 class="font-display font-semibold mb-2">Blockchain fundamentals</h3>
+          <p class="text-gray-400 text-sm leading-relaxed">Studied wallets, gas, consensus, and DeFi mechanics — now building toward Solidity and smart contract development.</p>
+        </div>
+        <div class="bg-navy-900 border border-white/10 rounded-xl p-6 card-glow transition-all">
+          <i class="fa-solid fa-chart-line text-accent text-xl mb-4"></i>
+          <h3 class="font-display font-semibold mb-2">On-chain analysis</h3>
+          <p class="text-gray-400 text-sm leading-relaxed">Learning to read wallet behavior, exchange flows, and holding patterns — the analytical side of crypto, not the speculative side.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== WORK / SERVICES ===================== -->
+<section id="work" class="py-24 md:py-32 bg-navy-900/40 border-t border-white/5">
+  <div class="max-w-6xl mx-auto px-6 lg:px-8">
+    <div class="flex flex-col md:flex-row md:items-end md:justify-between mb-14 reveal">
+      <div>
+        <p class="font-mono text-accent text-sm mb-3">services</p>
+        <h2 class="font-display text-3xl md:text-4xl font-semibold">What I can build for you</h2>
+      </div>
+      <p class="text-gray-400 max-w-sm mt-4 md:mt-0">Practical engineering help, scoped clearly — from scripts and automation to future smart contract work.</p>
+    </div>
+
+    <div class="grid md:grid-cols-3 gap-6">
+
+      <div class="group relative bg-navy-900 border border-white/10 rounded-2xl p-8 card-glow transition-all reveal">
+        <span class="font-mono text-xs text-accent">01</span>
+        <h3 class="font-display text-xl font-semibold mt-4 mb-3">Python Scripting &amp; Automation</h3>
+        <p class="text-gray-400 text-sm leading-relaxed mb-6">Clean, well-structured Python scripts for calculations, data tasks, and everyday automation problems.</p>
+        <ul class="space-y-2 text-sm text-gray-400">
+          <li class="flex gap-2"><i class="fa-solid fa-check text-accent mt-1 text-xs"></i>Custom scripts &amp; small tools</li>
+          <li class="flex gap-2"><i class="fa-solid fa-check text-accent mt-1 text-xs"></i>Data cleanup &amp; formatting</li>
+          <li class="flex gap-2"><i class="fa-solid fa-check text-accent mt-1 text-xs"></i>Logic-heavy solvers</li>
+        </ul>
+      </div>
+
+      <div class="group relative bg-navy-900 border border-accent/30 rounded-2xl p-8 card-glow transition-all reveal shadow-glow">
+        <span class="font-mono text-xs text-accent">02</span>
+        <h3 class="font-display text-xl font-semibold mt-4 mb-3">Blockchain &amp; On-Chain Research</h3>
+        <p class="text-gray-400 text-sm leading-relaxed mb-6">Wallet flow tracking, exchange activity, and holding-pattern analysis for early-stage crypto research.</p>
+        <ul class="space-y-2 text-sm text-gray-400">
+          <li class="flex gap-2"><i class="fa-solid fa-check text-accent mt-1 text-xs"></i>Whale &amp; wallet watching</li>
+          <li class="flex gap-2"><i class="fa-solid fa-check text-accent mt-1 text-xs"></i>Exchange flow reports</li>
+          <li class="flex gap-2"><i class="fa-solid fa-check text-accent mt-1 text-xs"></i>HODL wave breakdowns</li>
+        </ul>
+      </div>
+
+      <div class="group relative bg-navy-900 border border-white/10 rounded-2xl p-8 card-glow transition-all reveal">
+        <span class="font-mono text-xs text-accent">03</span>
+        <h3 class="font-display text-xl font-semibold mt-4 mb-3">Smart Contracts (in progress)</h3>
+        <p class="text-gray-400 text-sm leading-relaxed mb-6">Currently building toward Solidity development — available soon for simple contract logic and audits-in-training.</p>
+        <ul class="space-y-2 text-sm text-gray-400">
+          <li class="flex gap-2"><i class="fa-solid fa-check text-accent mt-1 text-xs"></i>Solidity fundamentals</li>
+          <li class="flex gap-2"><i class="fa-solid fa-check text-accent mt-1 text-xs"></i>Contract logic review</li>
+          <li class="flex gap-2"><i class="fa-solid fa-check text-accent mt-1 text-xs"></i>Testnet deployment</li>
+        </ul>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ===================== CONTACT ===================== -->
+<section id="contact" class="py-24 md:py-32 border-t border-white/5">
+  <div class="max-w-6xl mx-auto px-6 lg:px-8 grid md:grid-cols-5 gap-12">
+
+    <div class="md:col-span-2 reveal">
+      <p class="font-mono text-accent text-sm mb-3">contact</p>
+      <h2 class="font-display text-3xl font-semibold mb-4">Let's build something.</h2>
+      <p class="text-gray-400 leading-relaxed mb-8">
+        Have a project, a script you need written, or research you'd like done? Send a message —
+        I read and reply to every one myself.
+      </p>
+      <div class="space-y-4 font-mono text-sm text-gray-400">
+        <p class="flex items-center gap-3"><i class="fa-solid fa-envelope text-accent w-4"></i> hello@abdulhalliru.dev</p>
+        <p class="flex items-center gap-3"><i class="fa-solid fa-location-dot text-accent w-4"></i> Bauchi, Nigeria</p>
+      </div>
+    </div>
+
+    <form id="contactForm" novalidate class="md:col-span-3 bg-navy-900 border border-white/10 rounded-2xl p-8 reveal">
+      <div class="grid sm:grid-cols-2 gap-5 mb-5">
+        <div>
+          <label for="name" class="block text-xs font-mono text-gray-400 mb-2">Name</label>
+          <input type="text" id="name" name="name" class="w-full bg-navy-800 border border-white/10 rounded-lg px-4 py-3 text-sm focus:outline-none focus:border-accent transition-colors" placeholder="Your name">
+          <p class="error-msg hidden text-red-400 text-xs mt-1"></p>
+        </div>
+        <div>
+          <label for="email" class="block text-xs font-mono text-gray-400 mb-2">Email</label>
+          <input type="email" id="email" name="email" class="w-full bg-navy-800 border border-white/10 rounded-lg px-4 py-3 text-sm focus:outline-none focus:border-accent transition-colors" placeholder="you@example.com">
+          <p class="error-msg hidden text-red-400 text-xs mt-1"></p>
+        </div>
+      </div>
+
+      <div class="mb-5">
+        <label for="subject" class="block text-xs font-mono text-gray-400 mb-2">Subject</label>
+        <input type="text" id="subject" name="subject" class="w-full bg-navy-800 border border-white/10 rounded-lg px-4 py-3 text-sm focus:outline-none focus:border-accent transition-colors" placeholder="What's this about?">
+        <p class="error-msg hidden text-red-400 text-xs mt-1"></p>
+      </div>
+
+      <div class="mb-6">
+        <label for="message" class="block text-xs font-mono text-gray-400 mb-2">Message</label>
+        <textarea id="message" name="message" rows="4" class="w-full bg-navy-800 border border-white/10 rounded-lg px-4 py-3 text-sm focus:outline-none focus:border-accent transition-colors resize-none" placeholder="Tell me about your project..."></textarea>
+        <p class="error-msg hidden text-red-400 text-xs mt-1"></p>
+      </div>
+
+      <button type="submit" class="w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-accent text-navy-950 font-semibold px-8 py-3 rounded-full hover:shadow-glow transition-all">
+        Send message <i class="fa-solid fa-paper-plane text-sm"></i>
+      </button>
+
+      <p id="formSuccess" class="hidden mt-4 text-accent text-sm font-mono flex items-center gap-2">
+        <i class="fa-solid fa-circle-check"></i> Message sent — thank you. I'll reply soon.
+      </p>
+    </form>
+  </div>
+</section>
+
+<!-- ===================== FOOTER ===================== -->
+<footer class="border-t border-white/5 py-10">
+  <div class="max-w-6xl mx-auto px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-6">
+    <a href="#home" class="font-display font-semibold text-lg">
+      <span class="text-accent">&lt;</span>Abdul<span class="text-accent">/&gt;</span>
+    </a>
+
+    <div class="flex items-center gap-5 text-gray-400 text-lg">
+      <a href="#" aria-label="GitHub" class="hover:text-accent transition-colors"><i class="fa-brands fa-github"></i></a>
+      <a href="#" aria-label="LinkedIn" class="hover:text-accent transition-colors"><i class="fa-brands fa-linkedin"></i></a>
+      <a href="#" aria-label="X" class="hover:text-accent transition-colors"><i class="fa-brands fa-x-twitter"></i></a>
+      <a href="#" aria-label="Email" class="hover:text-accent transition-colors"><i class="fa-solid fa-envelope"></i></a>
+    </div>
+
+    <p class="text-gray-500 text-sm font-mono">© <span id="year"></span> Abdul Halliru. All rights reserved.</p>
+  </div>
+</footer>
+
+<!-- Back to top -->
+<button id="toTop" aria-label="Back to top" class="fixed bottom-6 right-6 w-11 h-11 rounded-full bg-navy-900 border border-white/10 text-accent flex items-center justify-center opacity-0 

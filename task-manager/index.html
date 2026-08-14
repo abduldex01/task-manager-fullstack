@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Task Manager - By Abdurrahman</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+            min-height: 100vh;
+            padding: 30px 15px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .container {
+            background-color: #ffffff;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+            width: 100%;
+            max-width: 480px;
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+        .header h2 {
+            color: #1a2a3a;
+            font-size: 24px;
+            font-weight: 700;
+        }
+        .header p {
+            color: #666;
+            font-size: 13px;
+            margin-top: 5px;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        input, textarea {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1.5px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 14px;
+            outline: none;
+            transition: 0.3s;
+        }
+        input:focus, textarea:focus {
+            border-color: #203a43;
+            box-shadow: 0 0 5px rgba(32, 58, 67, 0.2);
+        }
+        .btn-add {
+            width: 100%;
+            padding: 12px;
+            background-color: #203a43;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        .btn-add:hover {
+            background-color: #0f2027;
+        }
+        .task-section {
+            margin-top: 30px;
+        }
+        .task-section h3 {
+            font-size: 16px;
+            color: #333;
+            margin-bottom: 15px;
+            border-bottom: 2px solid #f0f0f0;
+            padding-bottom: 8px;
+        }
+        .task-item {
+            background-color: #f8f9fa;
+            border-left: 4px solid #203a43;
+            padding: 15px;
+            border-radius: 6px;
+            margin-bottom: 12px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .task-item strong {
+            display: block;
+            color: #222;
+            font-size: 15px;
+        }
+        .task-item p {
+            color: #666;
+            font-size: 13px;
+            margin-top: 4px;
+        }
+        .footer {
+            text-align: center;
+            margin-top: 25px;
+            padding-top: 15px;
+            border-top: 1px solid #eee;
+            font-size: 13px;
+            color: #777;
+        }
+        .footer strong {
+            color: #203a43;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="header">
+        <h2>Task Manager</h2>
+        <p>Full-stack App (Flask API + JS)</p>
+    </div>
+    
+    <!-- Input Form -->
+    <div class="form-group">
+        <input type="text" id="title" placeholder="Task Title...">
+    </div>
+    <div class="form-group">
+        <textarea id="description" rows="3" placeholder="Task Description..."></textarea>
+    </div>
+    <button class="btn-add" onclick="addTask()">Save Task to API</button>
+
+    <!-- Task Display Section -->
+    <div class="task-section">
+        <h3>My Tasks (From Python Backend)</h3>
+        <div id="taskList"></div>
+    </div>
+
+    <!-- Branding Footer -->
+    <div class="footer">
+        <p>Built with ❤️ by <strong>Abdurrahman</strong></p>
+    </div>
+</div>
+
+<script>
+    const API_URL = "http://127.0.0.1:5000/api/tasks";
+
+    // 1. Aiki don kwasho ayyuka daga Python Backend
+    async function fetchTasks() {
+        try {
+            let response = await fetch(API_URL);
+            let tasks = await response.json();
+            let taskList = document.getElementById("taskList");
+            taskList.innerHTML = "";
+
+            tasks.forEach(task => {
+                let taskItem = document.createElement("div");
+                taskItem.className = "task-item";
+                taskItem.innerHTML = `
+                    <div>
+                        <strong>${task.title}</strong>
+                        <p>${task.description}</p>
+                    </div>
+                `;
+                taskList.appendChild(taskItem);
+            });
+        } catch (error) {
+            console.error("Error fetching tasks:", error);
+        }
+    }
+
+    // 2. Aiki don tura sabon aiki zuwa Python Backend
+    async function addTask() {
+        let title = document.getElementById("title").value.trim();
+        let description = document.getElementById("description").value.trim();
+
+        if (!title) {
+            alert("Please enter a title!");
+            return;
+        }
+
+        try {
+            let response = await fetch(API_URL, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({ title, description })
+            });
+
+            if (response.ok) {
+                document.getElementById("title").value = "";
+                document.getElementById("description").value = "";
+                fetchTasks(); // Sake sabunta jerin ayyuka
+            }
+        } catch (error) {
+            alert("Could not connect to Python Server! Make sure Pydroid is running.");
+        }
+    }
+
+    // Kira ayyuka nan take idan shafin ya buɗe
+    fetchTasks();
+</script>
+
+</body>
+</html>
