@@ -9,9 +9,11 @@
         body { background-color: #0f0f0f; color: #ffffff; display: flex; justify-content: center; padding: 15px; min-height: 100vh; }
         .container { width: 100%; max-width: 600px; background-color: #1e1e1e; padding: 25px; border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.6); }
         
-        .header { text-align: center; margin-bottom: 30px; }
+        .header { text-align: center; margin-bottom: 20px; }
         .header h1 { color: #007bff; font-size: 36px; letter-spacing: 1px; }
         .header p { color: #aaa; font-size: 16px; margin-top: 5px; }
+
+        .notify-btn { width: 100%; padding: 10px; background: #28a745; border: none; color: white; border-radius: 8px; font-weight: bold; cursor: pointer; margin-bottom: 20px; }
 
         .input-group { display: flex; flex-direction: column; gap: 15px; margin-bottom: 20px; }
         label { font-size: 12px; color: #888; margin-bottom: 5px; display: block; }
@@ -36,6 +38,8 @@
             <h1>Abduldex</h1>
             <p>Task Manager</p>
         </div>
+
+        <button class="notify-btn" onclick="requestNotificationPermission()">🔔 Enable Notifications</button>
 
         <div class="input-group">
             <div>
@@ -66,6 +70,21 @@
 
     <script>
         let allTasks = [];
+        let notifiedTasks = new Set();
+
+        function requestNotificationPermission() {
+            if ("Notification" in window) {
+                Notification.requestPermission().then(permission => {
+                    if (permission === "granted") {
+                        alert("Notifications Enabled Successfully!");
+                    } else {
+                        alert("Permission Denied!");
+                    }
+                });
+            } else {
+                alert("Browser does not support notifications.");
+            }
+        }
 
         async function fetchTasks() {
             const res = await fetch('/tasks');
@@ -128,6 +147,27 @@
             await fetch(`/tasks/${id}`, { method: 'DELETE' });
             fetchTasks();
         }
+
+        // Tsarin Duba Lokacin Task
+        setInterval(() => {
+            const now = new Date();
+            const currentDate = now.toISOString().split('T')[0];
+            const currentTime = now.toTimeString().slice(0, 5);
+
+            allTasks.forEach(task => {
+                if (!task.completed && task.due_date === currentDate && task.due_time === currentTime) {
+                    if (!notifiedTasks.has(task.id)) {
+                        if (Notification.permission === "granted") {
+                            new Notification("Abduldex Task Reminder ⏰", {
+                                body: `Time to perform your task: "${task.title}"`,
+                                icon: "https://cdn-icons-png.flaticon.com/512/3119/3119338.png"
+                            });
+                        }
+                        notifiedTasks.add(task.id);
+                    }
+                }
+            });
+        }, 10000); // Yana duba duk bayan sakandari 10
 
         fetchTasks();
     </script>
