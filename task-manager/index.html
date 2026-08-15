@@ -28,7 +28,7 @@
 
         .task-item { background: #2a2a2a; padding: 15px; margin-bottom: 10px; border-radius: 10px; display: flex; justify-content: space-between; align-items: center; }
         .task-info { flex: 1; cursor: pointer; }
-        .completed { text-decoration: line-through; opacity: 0.6; }
+        .completed .task-title { text-decoration: line-through; opacity: 0.5; }
         .delete-btn { background: #dc3545; color: white; border: none; padding: 8px 12px; border-radius: 6px; cursor: pointer; }
     </style>
 </head>
@@ -72,17 +72,23 @@
         let allTasks = [];
         let notifiedTasks = new Set();
 
-        function requestNotificationPermission() {
-            if ("Notification" in window) {
-                Notification.requestPermission().then(permission => {
+        async function requestNotificationPermission() {
+            if (!("Notification" in window)) {
+                alert("This browser does not support notifications.");
+                return;
+            }
+
+            try {
+                const permission = await Notification.requestPermission();
+                if (permission === "granted") {
+                    alert("Notifications Enabled Successfully! 🔔");
+                }
+            } catch (error) {
+                Notification.requestPermission(function (permission) {
                     if (permission === "granted") {
-                        alert("Notifications Enabled Successfully!");
-                    } else {
-                        alert("Permission Denied!");
+                        alert("Notifications Enabled Successfully! 🔔");
                     }
                 });
-            } else {
-                alert("Browser does not support notifications.");
             }
         }
 
@@ -105,7 +111,7 @@
                 li.className = `task-item ${t.completed ? 'completed' : ''}`;
                 li.innerHTML = `
                     <div class="task-info" onclick="toggleTask(${t.id})">
-                        <b>${t.title}</b><br>
+                        <b class="task-title">${t.title}</b><br>
                         <small style="color:#007bff;">${t.due_date || ''} ${t.due_time || ''}</small>
                     </div>
                     <button class="delete-btn" onclick="deleteTask(${t.id})">Delete</button>
@@ -148,18 +154,18 @@
             fetchTasks();
         }
 
-        // Tsarin Duba Lokacin Task
+        // Tsarin Duba Lokaci Mai Sauri (Kowane Sakandare 3)
         setInterval(() => {
             const now = new Date();
-            const currentDate = now.toISOString().split('T')[0];
-            const currentTime = now.toTimeString().slice(0, 5);
-
+            
             allTasks.forEach(task => {
-                if (!task.completed && task.due_date === currentDate && task.due_time === currentTime) {
-                    if (!notifiedTasks.has(task.id)) {
+                if (!task.completed && task.due_date && task.due_time) {
+                    const taskDateTime = new Date(`${task.due_date}T${task.due_time}:00`);
+
+                    if (now >= taskDateTime && !notifiedTasks.has(task.id)) {
                         if (Notification.permission === "granted") {
                             new Notification("Abduldex Task Reminder ⏰", {
-                                body: `Time to perform your task: "${task.title}"`,
+                                body: `Time to do: "${task.title}"`,
                                 icon: "https://cdn-icons-png.flaticon.com/512/3119/3119338.png"
                             });
                         }
@@ -167,7 +173,7 @@
                     }
                 }
             });
-        }, 10000); // Yana duba duk bayan sakandari 10
+        }, 3000);
 
         fetchTasks();
     </script>
