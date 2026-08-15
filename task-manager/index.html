@@ -1,212 +1,135 @@
 <!DOCTYPE html>
-<html lang="ha">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Task Manager - Fullstack App</title>
+    <title>Abduldex - Task Manager</title>
     <style>
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', sans-serif; }
+        body { background-color: #0f0f0f; color: #ffffff; display: flex; justify-content: center; padding: 15px; min-height: 100vh; }
+        .container { width: 100%; max-width: 600px; background-color: #1e1e1e; padding: 25px; border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.6); }
+        
+        .header { text-align: center; margin-bottom: 30px; }
+        .header h1 { color: #007bff; font-size: 36px; letter-spacing: 1px; }
+        .header p { color: #aaa; font-size: 16px; margin-top: 5px; }
 
-        body {
-            background-color: #121212;
-            color: #ffffff;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            padding: 20px;
-        }
+        .input-group { display: flex; flex-direction: column; gap: 15px; margin-bottom: 20px; }
+        label { font-size: 12px; color: #888; margin-bottom: 5px; display: block; }
+        input { width: 100%; padding: 12px; border-radius: 8px; border: 1px solid #333; background: #2a2a2a; color: white; outline: none; }
+        .date-time-container { display: flex; gap: 10px; }
+        .field { flex: 1; }
+        button.add-btn { width: 100%; padding: 12px; background: #007bff; border: none; color: white; border-radius: 8px; font-weight: bold; cursor: pointer; }
 
-        .container {
-            background-color: #1e1e1e;
-            padding: 25px;
-            border-radius: 12px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
-            width: 100%;
-            max-width: 450px;
-        }
+        .filters { display: flex; gap: 10px; margin-bottom: 20px; justify-content: center; }
+        .filter-btn { padding: 8px 15px; background: #333; border: none; color: white; border-radius: 20px; cursor: pointer; font-size: 13px; }
+        .filter-btn.active { background: #007bff; }
 
-        h1 {
-            text-align: center;
-            margin-bottom: 5px;
-            font-size: 24px;
-        }
-
-        p.subtitle {
-            text-align: center;
-            color: #aaa;
-            font-size: 14px;
-            margin-bottom: 20px;
-        }
-
-        .input-group {
-            display: flex;
-            gap: 10px;
-            margin-bottom: 20px;
-        }
-
-        input[type="text"] {
-            flex: 1;
-            padding: 12px;
-            border-radius: 6px;
-            border: 1px solid #333;
-            background-color: #2a2a2a;
-            color: #fff;
-            outline: none;
-        }
-
-        input[type="text"]:focus {
-            border-color: #007bff;
-        }
-
-        button.add-btn {
-            padding: 12px 18px;
-            background-color: #007bff;
-            color: white;
-            border: none;
-            border-radius: 6px;
-            cursor: pointer;
-            font-weight: bold;
-        }
-
-        button.add-btn:hover {
-            background-color: #0056b3;
-        }
-
-        ul {
-            list-style: none;
-        }
-
-        .task-item {
-            background-color: #2a2a2a;
-            padding: 12px;
-            border-radius: 6px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 10px;
-        }
-
-        .delete-btn {
-            background-color: #dc3545;
-            color: white;
-            border: none;
-            padding: 6px 12px;
-            border-radius: 4px;
-            cursor: pointer;
-        }
-
-        .delete-btn:hover {
-            background-color: #a71d2a;
-        }
-
-        footer {
-            margin-top: 20px;
-            text-align: center;
-            font-size: 13px;
-            color: #777;
-        }
+        .task-item { background: #2a2a2a; padding: 15px; margin-bottom: 10px; border-radius: 10px; display: flex; justify-content: space-between; align-items: center; }
+        .task-info { flex: 1; cursor: pointer; }
+        .completed { text-decoration: line-through; opacity: 0.6; }
+        .delete-btn { background: #dc3545; color: white; border: none; padding: 8px 12px; border-radius: 6px; cursor: pointer; }
     </style>
 </head>
 <body>
-
     <div class="container">
-        <h1>Task Manager</h1>
-        <p class="subtitle">Full-stack App (Flask API + JS)</p>
-
-        <div class="input-group">
-            <input type="text" id="title" placeholder="Rubuta sabon aiki (Task)...">
-            <button onclick="addTask()" class="add-btn">Saka</button>
+        <div class="header">
+            <h1>Abduldex</h1>
+            <p>Task Manager</p>
         </div>
 
-        <ul id="taskList">
-            <!-- Ayyuka za su bayyana a nan -->
-        </ul>
+        <div class="input-group">
+            <div>
+                <label>Task Title</label>
+                <input type="text" id="title" placeholder="What needs to be done?">
+            </div>
+            <div class="date-time-container">
+                <div class="field">
+                    <label>Due Date</label>
+                    <input type="date" id="taskDate">
+                </div>
+                <div class="field">
+                    <label>Time</label>
+                    <input type="time" id="taskTime">
+                </div>
+            </div>
+            <button onclick="addTask()" class="add-btn">Add Task</button>
+        </div>
 
-        <footer>
-            Built with ❤️ by <b>Abdurrahman</b>
-        </footer>
+        <div class="filters">
+            <button class="filter-btn active" onclick="filterTasks('all', this)">All</button>
+            <button class="filter-btn" onclick="filterTasks('active', this)">Active</button>
+            <button class="filter-btn" onclick="filterTasks('completed', this)">Completed</button>
+        </div>
+
+        <ul id="taskList" style="list-style: none;"></ul>
     </div>
 
     <script>
-        // Sanya '/tasks' domin ya yi amfani da Render server kai tsaye
-        const API_URL = '/tasks';
+        let allTasks = [];
 
-        // 1. Samo dukkan Tasks daga Database
         async function fetchTasks() {
-            try {
-                const response = await fetch(API_URL);
-                const tasks = await response.json();
-                
-                const taskList = document.getElementById('taskList');
-                taskList.innerHTML = '';
-
-                tasks.forEach(task => {
-                    const li = document.createElement('li');
-                    li.className = 'task-item';
-                    li.innerHTML = `
-                        <span>${task.title}</span>
-                        <button onclick="deleteTask(${task.id})" class="delete-btn">Goge</button>
-                    `;
-                    taskList.appendChild(li);
-                });
-            } catch (error) {
-                console.error('Error fetching tasks:', error);
-            }
+            const res = await fetch('/tasks');
+            allTasks = await res.json();
+            renderTasks('all');
         }
 
-        // 2. Kara Sabon Task
+        function renderTasks(filter) {
+            const list = document.getElementById('taskList');
+            list.innerHTML = '';
+            
+            allTasks.filter(t => {
+                if (filter === 'active') return !t.completed;
+                if (filter === 'completed') return t.completed;
+                return true;
+            }).forEach(t => {
+                const li = document.createElement('li');
+                li.className = `task-item ${t.completed ? 'completed' : ''}`;
+                li.innerHTML = `
+                    <div class="task-info" onclick="toggleTask(${t.id})">
+                        <b>${t.title}</b><br>
+                        <small style="color:#007bff;">${t.due_date || ''} ${t.due_time || ''}</small>
+                    </div>
+                    <button class="delete-btn" onclick="deleteTask(${t.id})">Delete</button>
+                `;
+                list.appendChild(li);
+            });
+        }
+
+        function filterTasks(type, btn) {
+            document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            renderTasks(type);
+        }
+
         async function addTask() {
-            const titleInput = document.getElementById('title');
-            const title = titleInput.value.trim();
-
-            if (!title) {
-                alert('Da fatan ka rubuta sunan aikin!');
-                return;
-            }
-
-            try {
-                const response = await fetch(API_URL, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({ title: title })
-                });
-
-                if (response.ok) {
-                    titleInput.value = '';
-                    fetchTasks(); // Sake sabunta jerin ayyuka
-                } else {
-                    alert('Akwai matsala wajen saka aikin!');
-                }
-            } catch (error) {
-                alert('An samu kuskure wajen haɗawa da Server!');
-            }
+            const title = document.getElementById('title').value;
+            if(!title) return;
+            await fetch('/tasks', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({ 
+                    title, 
+                    due_date: document.getElementById('taskDate').value,
+                    due_time: document.getElementById('taskTime').value
+                })
+            });
+            document.getElementById('title').value = '';
+            document.getElementById('taskDate').value = '';
+            document.getElementById('taskTime').value = '';
+            fetchTasks();
         }
 
-        // 3. Goge Task
+        async function toggleTask(id) {
+            await fetch(`/tasks/${id}`, { method: 'PUT' });
+            fetchTasks();
+        }
+
         async function deleteTask(id) {
-            try {
-                const response = await fetch(`${API_URL}/${id}`, {
-                    method: 'DELETE'
-                });
-
-                if (response.ok) {
-                    fetchTasks(); // Sake sabunta jerin ayyuka bayan an goge
-                }
-            } catch (error) {
-                alert('An samu kuskure wajen goge aikin!');
-            }
+            await fetch(`/tasks/${id}`, { method: 'DELETE' });
+            fetchTasks();
         }
 
-        // Kira shafin farko idan an bude gidan yanar gizo
-        document.addEventListener('DOMContentLoaded', fetchTasks);
+        fetchTasks();
     </script>
 </body>
 </html>
