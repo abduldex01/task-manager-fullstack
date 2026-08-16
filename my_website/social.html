@@ -1,67 +1,129 @@
 <!DOCTYPE html>
-<html lang="ha">
+<html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Hanyoyin Saduwa</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Connect With Me - Abdurrahman</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        body { background-color: #0f0f0f; color: #ffffff; display: flex; justify-content: center; padding: 20px; min-height: 100vh; }
+        .container { width: 100%; max-width: 700px; background-color: #1e1e1e; padding: 30px; border-radius: 16px; box-shadow: 0 10px 30px rgba(0,0,0,0.7); }
+        
+        /* Profile Header */
+        .profile-header { text-align: center; margin-bottom: 30px; }
+        .profile-img { width: 100px; height: 100px; border-radius: 50%; object-fit: cover; border: 3px solid #007bff; margin-bottom: 15px; }
+        .profile-header h1 { font-size: 28px; color: #007bff; }
+        .profile-header p { font-size: 15px; color: #aaa; margin-top: 5px; }
 
-  <!-- CSS: Tsarin ƙawata shafin na biyu -->
-  <style>
-    body { 
-      font-family: sans-serif; 
-      text-align: center; 
-      padding: 20px; 
-      background-color: #f4f4f9; 
-      color: #333; 
-    }
-    .card { 
-      background: white; 
-      padding: 20px; 
-      border-radius: 12px; 
-      max-width: 400px; 
-      margin: 0 auto; 
-      box-shadow: 0 4px 8px rgba(0,0,0,0.1); 
-    }
-    ul { 
-      list-style: none; /* Ya cire alamar ɗigo-ɗigo ta jeri */
-      padding: 0; 
-    }
-    li { 
-      margin: 15px 0; 
-    }
-    .btn { 
-      display: block; 
-      padding: 10px; 
-      background: #28a745; 
-      color: white; 
-      text-decoration: none; 
-      border-radius: 6px; 
-      font-weight: bold; 
-    }
-    .back-btn { 
-      display: inline-block; 
-      margin-top: 20px; 
-      color: #007bff; 
-      text-decoration: none; 
-    }
-  </style>
+        /* Navigation Links */
+        .nav-links { display: flex; justify-content: center; gap: 15px; margin-bottom: 30px; }
+        .nav-btn { padding: 8px 18px; background: #2a2a2a; color: white; border-radius: 20px; text-decoration: none; font-size: 14px; border: 1px solid #333; transition: 0.3s; }
+        .nav-btn:hover { background: #007bff; border-color: #007bff; }
+
+        /* Social Links List */
+        .social-container { display: flex; flex-direction: column; gap: 15px; margin-bottom: 35px; }
+        .social-card { display: flex; align-items: center; justify-content: space-between; background: #2a2a2a; padding: 18px; border-radius: 12px; border: 1px solid #333; text-decoration: none; color: white; transition: 0.3s; }
+        .social-card:hover { border-color: #007bff; transform: translateY(-2px); }
+        .social-info { display: flex; align-items: center; gap: 15px; }
+        .social-icon { font-size: 24px; }
+        .social-title { font-weight: bold; font-size: 16px; color: #ffffff; }
+        .social-sub { font-size: 12px; color: #aaa; }
+        .arrow { color: #007bff; font-weight: bold; }
+
+        /* Contact Form Styles */
+        .form-section { background: #2a2a2a; padding: 20px; border-radius: 12px; border: 1px solid #333; }
+        .form-section h2 { font-size: 18px; color: #007bff; margin-bottom: 15px; }
+        .form-group { margin-bottom: 15px; }
+        .form-group label { display: block; font-size: 12px; color: #aaa; margin-bottom: 5px; }
+        .form-group input, .form-group textarea { width: 100%; padding: 12px; border-radius: 8px; border: 1px solid #333; background: #1e1e1e; color: white; outline: none; }
+        .form-group textarea { resize: vertical; height: 100px; }
+        .send-btn { width: 100%; padding: 12px; background: #007bff; border: none; color: white; border-radius: 8px; font-weight: bold; cursor: pointer; transition: 0.3s; }
+        .send-btn:hover { background: #0056b3; }
+
+        footer { text-align: center; margin-top: 40px; color: #666; font-size: 13px; }
+    </style>
 </head>
 <body>
 
-  <div class="card">
-    <h2>Hanyoyina na Saduwa</h2>
-    <p>Za ka iya tuntuɓa ta ta waɗannan kafafen:</p>
+    <div class="container">
+        <!-- Profile Header -->
+        <div class="profile-header">
+            <img src="profile.jpg" alt="Abdurrahman" class="profile-img" onerror="this.src='https://via.placeholder.com/100'">
+            <h1>Connect With Me</h1>
+            <p>Let's collaborate on software & AI projects!</p>
+        </div>
 
-    <!-- Jerin Hanyoyin Saduwa (Links) -->
-    <ul>
-      <li><a href="https://wa.me/2340000000000" target="_blank" class="btn">WhatsApp</a></li>
-      <li><a href="https://github.com" target="_blank" class="btn">GitHub</a></li>
-      <li><a href="https://linkedin.com" target="_blank" class="btn">LinkedIn</a></li>
-    </ul>
+        <!-- Navigation -->
+        <div class="nav-links">
+            <a href="index.html" class="nav-btn">Projects</a>
+            <a href="social.html" class="nav-btn" style="background: #007bff;">Connect With Me</a>
+        </div>
 
-    <!-- Wannan link din zai maida mu baya zuwa shafin farko (index.html) -->
-    <a href="index.html" class="back-btn">&larr; Koma Babban Shafi</a>
-  </div>
+        <!-- Social Links -->
+        <div class="social-container">
+            
+            <!-- GitHub -->
+            <a href="https://github.com/Abduldex" target="_blank" class="social-card">
+                <div class="social-info">
+                    <span class="social-icon">💻</span>
+                    <div>
+                        <div class="social-title">GitHub</div>
+                        <div class="social-sub">Explore my repositories and source code</div>
+                    </div>
+                </div>
+                <span class="arrow">→</span>
+            </a>
+
+            <!-- LinkedIn -->
+            <a href="https://www.linkedin.com/in/abdurrahman-bappah-umar-7546bb393" target="_blank" class="social-card">
+                <div class="social-info">
+                    <span class="social-icon">💼</span>
+                    <div>
+                        <div class="social-title">LinkedIn</div>
+                        <div class="social-sub">Connect professionally with me on LinkedIn</div>
+                    </div>
+                </div>
+                <span class="arrow">→</span>
+            </a>
+
+            <!-- WhatsApp -->
+            <a href="https://wa.me/2347031578415" target="_blank" class="social-card">
+                <div class="social-info">
+                    <span class="social-icon">💬</span>
+                    <div>
+                        <div class="social-title">WhatsApp</div>
+                        <div class="social-sub">Chat with me directly on WhatsApp</div>
+                    </div>
+                </div>
+                <span class="arrow">→</span>
+            </a>
+
+        </div>
+
+        <!-- Contact Form (Formspree Protected) -->
+        <div class="form-section">
+            <h2>✉️ Send Me a Message</h2>
+            <form action="https://formspree.io/f/xjybeapk" method="POST">
+                <div class="form-group">
+                    <label>Your Name</label>
+                    <input type="text" name="name" placeholder="Enter your full name" required>
+                </div>
+                <div class="form-group">
+                    <label>Your Email</label>
+                    <input type="email" name="_replyto" placeholder="Enter your email address" required>
+                </div>
+                <div class="form-group">
+                    <label>Message</label>
+                    <textarea name="message" placeholder="Write your message here..." required></textarea>
+                </div>
+                <button type="submit" class="send-btn">Send Message 🚀</button>
+            </form>
+        </div>
+
+        <footer>
+            <p>&copy; 2026 Abdurrahman (Abduldex). All rights reserved.</p>
+        </footer>
+    </div>
 
 </body>
 </html>
